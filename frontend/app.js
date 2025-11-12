@@ -13,16 +13,23 @@ const abi = [
 let provider, signer, contract;
 
 async function connect() {
-  if (!window.ethereum) return alert("Установите MetaMask!");
+  if (typeof window.ethereum === 'undefined') {
+    alert("Metamask не найден. Установи расширение!");
+    return;
+  }
 
-  provider = new ethers.BrowserProvider(window.ethereum);
-  await provider.send("eth_requestAccounts", []);
-  signer = await provider.getSigner();
-  contract = new ethers.Contract(contractAddress, abi, signer);
-
-  document.getElementById("connectBtn").innerText = "Подключено";
-  loadData();
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    console.log("Подключено:", account);
+    document.getElementById("connectBtn").innerText = "Подключено: " + account.slice(0, 6) + "...";
+  } catch (error) {
+    console.error(error);
+    alert("Ошибка при подключении: " + error.message);
+  }
 }
+
+document.getElementById("connectBtn").addEventListener("click", connect);
 
 async function loadData() {
   const name = await contract.projectName();
