@@ -4,12 +4,16 @@
   <meta charset="UTF-8">
   <title>Crowdfunding dApp</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.min.js" defer></script>
+
 </head>
 <body>
   <div class="container">
-    <h1 id="projectName">Crowdfunding</h1>
-    <p id="description">Описание проекта</p>
+    <h1 id="projectName">НА РЕМОНТ ПРОВАЛА</h1>
+    <p id="description">Милиционеры заплатили, деликатно осведомившись, 
+                                  с какой целью взимаются пятаки.
+                  — С целью капитального ремонта Провала,— дерзко ответил Остап,
+                                    — чтоб не слишком провалился.</p>
     <p><strong>Цель:</strong> <span id="goal"></span> ETH</p>
     <p><strong>Собрано:</strong> <span id="totalFunds"></span> ETH</p>
     <p><strong>Владелец:</strong> <span id="owner"></span></p>
@@ -25,6 +29,6 @@
     <button id="refundBtn">Вернуть средства (если цель не достигнута)</button>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

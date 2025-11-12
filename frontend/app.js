@@ -93,7 +93,6 @@ async function refundFunds() {
   }
 }
 
-// Привязка кнопок
 document.getElementById("connectBtn").addEventListener("click", connect);
 document.getElementById("fundBtn").addEventListener("click", fundProject);
 document.getElementById("withdrawBtn").addEventListener("click", withdrawFunds);
