@@ -1,19 +1,19 @@
 body {
-  background: #f7f7f7;
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  background: #f7f7f7;
 }
 
 .container {
   background: white;
-  border-radius: 12px;
   padding: 2rem;
+  border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  text-align: center;
   width: 350px;
+  text-align: center;
 }
 
 button {

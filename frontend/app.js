@@ -13,46 +13,43 @@ const abi = [
 let provider, signer, contract;
 
 async function connect() {
-  if (!window.ethereum) {
-    alert("Metamask не найден. Установи расширение!");
-    return;
-  }
+  if (!window.ethereum) return alert("Установите MetaMask!");
 
   try {
-    // Создаём провайдер и signer
     provider = new ethers.BrowserProvider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     signer = await provider.getSigner();
-
-    // Инициализация контракта
     contract = new ethers.Contract(contractAddress, abi, signer);
 
     const account = await signer.getAddress();
+    document.getElementById("connectBtn").innerText = "Подключено: " + account.slice(0,6) + "...";
     console.log("Подключено:", account);
-    document.getElementById("connectBtn").innerText = "Подключено: " + account.slice(0, 6) + "...";
 
-    // Загружаем данные контракта
     loadData();
-  } catch (error) {
-    console.error(error);
-    alert("Ошибка при подключении: " + error.message);
+  } catch (err) {
+    console.error(err);
+    alert("Ошибка подключения: " + err.message);
   }
 }
 
 async function loadData() {
   if (!contract) return;
 
-  const name = await contract.projectName();
-  const desc = await contract.description();
-  const goal = await contract.goal();
-  const total = await contract.totalFunds();
-  const owner = await contract.owner();
+  try {
+    const name = await contract.projectName();
+    const desc = await contract.description();
+    const goal = await contract.goal();
+    const total = await contract.totalFunds();
+    const owner = await contract.owner();
 
-  document.getElementById("projectName").innerText = name;
-  document.getElementById("description").innerText = desc;
-  document.getElementById("goal").innerText = ethers.formatEther(goal);
-  document.getElementById("totalFunds").innerText = ethers.formatEther(total);
-  document.getElementById("owner").innerText = owner;
+    document.getElementById("projectName").innerText = name;
+    document.getElementById("description").innerText = desc;
+    document.getElementById("goal").innerText = ethers.formatEther(goal);
+    document.getElementById("totalFunds").innerText = ethers.formatEther(total);
+    document.getElementById("owner").innerText = owner;
+  } catch (err) {
+    console.error("Ошибка загрузки данных:", err);
+  }
 }
 
 async function fundProject() {
@@ -61,15 +58,19 @@ async function fundProject() {
   const ethAmount = document.getElementById("amount").value;
   if (!ethAmount || Number(ethAmount) <= 0) return alert("Введите корректное количество ETH");
 
-  const tx = await contract.fund({ value: ethers.parseEther(ethAmount) });
-  await tx.wait();
-  alert("Пожертвование успешно отправлено!");
-  loadData();
+  try {
+    const tx = await contract.fund({ value: ethers.parseEther(ethAmount) });
+    await tx.wait();
+    alert("Пожертвование успешно отправлено!");
+    loadData();
+  } catch (err) {
+    console.error(err);
+    alert("Ошибка при отправке пожертвования: " + err.message);
+  }
 }
 
 async function withdrawFunds() {
   if (!contract) return alert("Сначала подключите MetaMask!");
-
   try {
     const tx = await contract.withdraw();
     await tx.wait();
@@ -82,7 +83,6 @@ async function withdrawFunds() {
 
 async function refundFunds() {
   if (!contract) return alert("Сначала подключите MetaMask!");
-
   try {
     const tx = await contract.refund();
     await tx.wait();
