@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,8 +9,14 @@
   <div class="container">
     <h1 id="projectName">Загрузка...</h1>
     <p id="description"></p>
+
     <p><strong>Цель:</strong> <span id="goal"></span> ETH</p>
     <p><strong>Собрано:</strong> <span id="totalFunds"></span> ETH</p>
+
+    <div class="progress-bar">
+      <div id="progress" class="progress-fill"></div>
+    </div>
+
     <p><strong>Владелец:</strong> <span id="owner"></span></p>
 
     <button id="connectBtn">Подключить MetaMask</button>
@@ -23,11 +28,12 @@
 
     <button id="withdrawBtn">Вывести средства (только владелец)</button>
     <button id="refundBtn">Вернуть средства (если цель не достигнута)</button>
+
+    <h3>История пожертвований:</h3>
+    <ul id="donationsList"></ul>
   </div>
 
-  <!-- ethers.js v6 -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.min.js"></script>
-  <!-- твой скрипт -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.0/ethers.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
